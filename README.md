@@ -1,6 +1,9 @@
 # coronaIndia
 A command line tool for displaying latest coronavirus numbers in India
 
+# Source of Information
+https://api.covid19india.org
+
 # Requirements
 System must have docker installed.
 
