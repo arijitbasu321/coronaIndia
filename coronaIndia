@@ -1,0 +1,47 @@
+#!/usr/local/bin/python3
+
+# Name: coronaIndia
+# Description: Uses api.covid19india.org api to print corona outbreak stats
+# Author: Arijit Basu
+# Date: 06 April 2020
+
+import requests
+from prettytable import PrettyTable
+import sys
+
+
+try:
+    if sys.argv[1].lower() == "help":
+        print("Usage: Enter 'coronaIndia <Indian state>' for details of the state \nor just type 'coronaIndia' to get details for all states.")
+        sys.exit(0)
+    state_name = sys.argv[1:]
+except IndexError:
+    state_name = ""
+match = False
+#colours
+R = "\033[0;31;40m" #RED
+G = "\033[0;32;40m" # GREEN
+Y = "\033[0;33;40m" # Yellow
+B = "\033[0;36;40m" # Blue
+P = "\033[0;35;40m" # Blue
+N = "\033[0m" # Reset
+
+
+response = requests.get('https://api.covid19india.org/data.json')
+data = response.json()
+
+t = PrettyTable([B+'state'+N, Y+'confirmed'+N, P+'active'+N, G+'recovered'+N, R+'deaths'+N])
+for state_data in data['statewise']:
+    if state_name:
+        if " ".join(state_name).lower() == state_data['state'].lower():
+            match = True
+            t.add_row([B+state_data['state']+N, Y+state_data['confirmed']+N, P+state_data['active']+N, G+state_data['recovered']+N, R+state_data['deaths']+N])
+            break
+    else:
+        t.add_row([B+state_data['state']+N, Y+state_data['confirmed']+N, P+state_data['active']+N, G+state_data['recovered']+N, R+state_data['deaths']+N])
+
+if state_name and not match:
+    print(f"{state_name} is not an Indian state.")
+    sys.exit(0)
+
+print(t)
