@@ -11,3 +11,5 @@ System must have docker installed.
 1. clone the repo 
 2. Make the coronaIndia.sh file executable
 3. add the script to your $PATH or run it as ./coronaIndia.sh
+
+Note: The first run will take some time as it needs to pull the docker image for Dockerhub. Subsequent runs will be faster.
